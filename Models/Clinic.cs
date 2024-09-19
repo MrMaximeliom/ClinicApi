@@ -1,10 +1,5 @@
 ﻿namespace DentalClinic.Models
 {
-/*    name
-id
-department_id
-doctor_id
-working_days*/
     public enum DayOfWeek
     {
         Sunday,
@@ -22,7 +17,10 @@ working_days*/
         public string Name { get; set; } = name;
 
         // Relation fields
-        public int DepartmentId { get; set; }   
+        public int DepartmentId { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+
+        public DateTime? LastUpdatedAt { get; set; }
 
         public ICollection<WorkingHours> WorkingHours { get; set; } = [];  
 

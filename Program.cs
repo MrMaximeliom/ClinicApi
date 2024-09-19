@@ -1,4 +1,5 @@
 using DentalClinic;
+using DentalClinic.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection"),
         b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
 });
+
+builder.Services.AddTransient<IUnitOfWork,IUnitOfWork>();
 
 // Add services to the container.
 

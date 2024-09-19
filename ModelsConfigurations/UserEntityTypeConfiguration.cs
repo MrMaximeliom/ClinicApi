@@ -49,8 +49,21 @@ namespace DentalClinic.ModelsConfigurations
             // Configure username properties
             builder
                 .Property (s => s.UserName)
-                .IsRequired(false).
-                HasMaxLength(25);   
+                .IsRequired(false)
+                .HasMaxLength(25);
+
+            // Configure CreatedAt properties
+            builder
+                .Property(r => r.CreatedAt)
+                .IsRequired(false);
+            // Configure LastUpdatedAt properties
+            builder
+                .Property(e => e.LastUpdatedAt)
+                .IsRequired(false)
+                .ValueGeneratedOnUpdate()
+                .HasDefaultValueSql("GETDATE()");
+
+
         }
     }
 }

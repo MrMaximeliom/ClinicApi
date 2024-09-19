@@ -1,10 +1,5 @@
 ﻿namespace DentalClinic.Models
 {
-/*    name
-user_id
-clinic_id
-booking_date
-booking_time*/
 
     public class Booking
     {
@@ -14,12 +9,15 @@ booking_time*/
 
         public DateOnly BookingDate { get; set; }   
 
-        public TimeOnly BookingTime     { get; set; } 
-        
+        public TimeOnly BookingTime     { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+
+        public DateTime? LastUpdatedAt { get; set; }
+
         // Relation field
         public int ClinicId { get; set; }   
 
-        public int UserId {  get; set; }    
+        public string UserId {  get; set; }    
 
         // Navigation properties
         public Clinic  Clinic { get; set; }

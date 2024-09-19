@@ -14,9 +14,9 @@ namespace DentalClinic.Models
 
         public UserType UserType { get; set; }
         
-        public DateTime CreatedDate { get; set; } = DateTime.Now ;
+        public DateTime? CreatedAt { get; set; } = DateTime.Now ;
 
-        public DateTime? LastUpdatedDate { get; set; }
+        public DateTime? LastUpdatedAt { get; set; }
 
 
         // Navigation properties
