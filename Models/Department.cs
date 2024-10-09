@@ -12,7 +12,7 @@
         // Relation fields
         public int SpecializationId { get; set; }
 
-        // Navigation PRoperties
+        // Navigation Properties
         public IQueryable<Clinic> Clinics { get; set; }
 
         public Specialization Specilaization { get; set; }

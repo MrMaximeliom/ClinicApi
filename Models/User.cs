@@ -22,6 +22,8 @@ namespace DentalClinic.Models
         // Navigation properties
         public Doctor Doctor { get; set; }  
 
+        public List<RefreshToken>? RefreshTokens { get; set; }
+
 
 
 

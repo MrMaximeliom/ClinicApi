@@ -1,7 +1,6 @@
 ﻿using DentalClinic.Constants;
 using DentalClinic.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using System.Linq.Expressions;
 
 namespace DentalClinic.Repositories
@@ -13,6 +12,10 @@ namespace DentalClinic.Repositories
         public IEnumerable<T> GetAll()
         {
             return [.. _context.Set<T>()];
+        }
+        public IQueryable<T> GetAllDeferred()
+        {
+            return _context.Set<T>();
         }
         public async Task<IEnumerable<T>> GetAllAsync()
         {
@@ -177,12 +180,12 @@ namespace DentalClinic.Repositories
 
         public void Delete(T entity)
         {
-            _context.Set<T>().Remove(entity);   
+            _context.Set<T>().Remove(entity);
         }
 
         public void DeleteRange(IEnumerable<T> items)
         {
-            _context.Set<T>().RemoveRange(items);   
+            _context.Set<T>().RemoveRange(items);
         }
 
         public void Attach(T entity)
@@ -215,15 +218,15 @@ namespace DentalClinic.Repositories
         }
 
 
-        public IEnumerable<T> FindAll(Expression<Func<T, bool>> expression,int take,int skip)
+        public IEnumerable<T> FindAll(Expression<Func<T, bool>> expression, int take, int skip)
         {
-            return [.. _context.Set<T>().Where(expression).Skip(skip).Take(take)];  
+            return [.. _context.Set<T>().Where(expression).Skip(skip).Take(take)];
         }
 
-        public async Task<IEnumerable<T>> FindAllAsync(Expression<Func<T,bool>> predicate,int skip,int take)
-        {
-            return await _context.Set<T>().Where(predicate).Skip(skip).Take(take).ToListAsync();
-        }
+        /*        public async Task<IEnumerable<T>> FindAllAsync(Expression<Func<T,bool>> predicate,int skip,int take)
+                {
+                    return await _context.Set<T>().Where(predicate).Skip(skip).Take(take).ToListAsync();
+                }*/
         public async Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities)
         {
             await _context.Set<T>().AddRangeAsync(entities);

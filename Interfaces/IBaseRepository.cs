@@ -14,9 +14,13 @@ namespace DentalClinic.Interfaces
 
         Task<T?> GetByIdAsync(string id);
 
+        IQueryable<T> GetAllDeferred();
+
         IEnumerable<T> GetAll();
 
         Task<IEnumerable<T>> GetAllAsync();
+
+
 
         T? Find(Expression<Func<T,bool>> predicate, string[]? includes = null);
 

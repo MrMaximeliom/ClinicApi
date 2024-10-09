@@ -1,8 +1,8 @@
 ﻿namespace DentalClinic.Models
 {
-    public class Auth(string Message)
+    public class Auth(string message = "")
     {
-        public string Message { get; set; } = Message;
+        public string Message { get; set; } = message;
 
         public bool IsAuthenticated  { get; set; }   
 
@@ -15,6 +15,7 @@
         public string? FirstName { get; set; }
 
         public string? FourthName { get; set; }
+        public List<string>? Roles { get; set; }    
 
         public string? Token { get; set; }  
 
