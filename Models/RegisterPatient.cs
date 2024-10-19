@@ -1,4 +1,6 @@
-﻿namespace DentalClinic.Models
+﻿using System.Text.Json.Serialization;
+
+namespace DentalClinic.Models
 {
     public class RegisterPatient
     {
@@ -15,5 +17,8 @@
         public string PhoneNumber { get; set; }
 
         public string Password { get; set; }
+
+        [JsonIgnore]
+        public UserType UserType { get; set; } = UserType.Patient;
     }
 }

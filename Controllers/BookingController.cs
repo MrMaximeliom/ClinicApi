@@ -23,7 +23,7 @@ namespace DentalClinic.Controllers
         {
             var deferredResults = _unitOfWork.Bookings.GetAllDeferred();
 
-            var results = deferredResults.ToArrayAsync();
+            var results = await deferredResults.ToArrayAsync();
 
             var resultDto = results.Adapt<BookingDto>();
 
