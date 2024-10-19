@@ -1,13 +1,26 @@
 ﻿namespace DentalClinic.Models
 {
-    public class Jwt(string key,string issuer,string audience,double durationInDays)
+    public class Jwt
     {
-        public string Key { get; set; } = key;
-        public string Issuer { get; set; } = issuer;
+   
+        public string Key { get; set; } 
+        public string Issuer { get; set; } 
 
-        public double DurationInDays { get; set; } = durationInDays;    
+        public double DurationInDays { get; set; }   
 
-        public string Audience { get; set; } = audience;
+        public string Audience { get; set; }
+        public Jwt(string key, string issuer, string audience, double durationInDays)
+        {
+            Key = key;
+            Issuer = issuer;
+            Audience = audience;
+            DurationInDays = durationInDays;
+        }
+
+        // Empty constructor
+        public Jwt()
+        {
+        }
 
     }
 }

@@ -1,16 +1,19 @@
 ﻿namespace DentalClinic.Models
 {
-    public class RegisterPatient(string firstName,string lastName,string phoneNumber,string email,string password)
+    public class RegisterPatient
     {
-        public string FirstName { get; set; } = firstName;
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
 
-        public string LastName { get; set; } = lastName;
+        public string ThirdName { get; set; }
+
+        public string FourthName { get; set; }
 
 
-        public string Email {  get; set; }  = email;
+        public string Email { get; set; }
 
-        public string PhoneNumber { get; set; } = phoneNumber;
+        public string PhoneNumber { get; set; }
 
-        public string Password { get; set; }    = password;
+        public string Password { get; set; }
     }
 }

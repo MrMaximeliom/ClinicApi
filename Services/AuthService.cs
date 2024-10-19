@@ -165,6 +165,7 @@ namespace DentalClinic.Services
             Auth auth = new()
             {
                 IsAuthenticated = true,
+                UserId = user.Id,
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
                 FirstName = user.FirstName,
                 FourthName = user.FourthName,
@@ -251,7 +252,7 @@ namespace DentalClinic.Services
 
             generator.GetBytes(randomNumber);
 
-            return new RefreshToken(Convert.ToBase64String(randomNumber), DateTime.UtcNow.AddDays(_jwt.DurationInDays))
+            return new RefreshToken()
             {
                 Token = Convert.ToBase64String(randomNumber),
                 ExpiresOn = DateTime.UtcNow.AddDays(_jwt.DurationInDays),

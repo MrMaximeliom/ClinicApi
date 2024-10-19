@@ -2,11 +2,11 @@
 
 namespace DentalClinic.Models
 {
-    public class RequestToken(string phoneNumber,string password)
+    public class RequestToken
     {
         [Required]
-        public string PhoneNumber { get; set; } = phoneNumber;
+        public string PhoneNumber { get; set; }
         [Required]
-        public string Password { get; set; }    = password;
+        public string Password { get; set; }    
     }
 }

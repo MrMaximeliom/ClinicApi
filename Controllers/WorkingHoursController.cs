@@ -7,81 +7,83 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DentalClinic.Controllers
 {
-    [Route("api/clinics")]
+    [Route("api/workingHours")]
     [Produces("application/json")]
     [ApiController]
-    public class ClinicController(IUnitOfWork unitOfWork) : ControllerBase
+    public class WorkingHoursController(IUnitOfWork unitOfWork) : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
 
-        public IActionResult GetAllClinicsAsync()
+        public IActionResult GetAllHoursAsync()
         {
-            var deffredResults = _unitOfWork.Clinics.GetAllDeferred();
+            var deffredResults = _unitOfWork.WorkingHours.GetAllDeferred();
 
             var results = deffredResults.ToList();
 
-            var resultsDto = results.Adapt<ClinicDto>();
+            var resultsDto = results.Adapt<WorkingHoursDto>();
+
             return Ok(resultsDto);
         }
 
-        // Get Clinics by id
+        // Get Working Hours by id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id:int}")]
 
-        public async Task<IActionResult> GetClinicsByIdAsync(int id)
+        public async Task<IActionResult> GetHoursByIdAsync(int id)
         {
-            var result = await _unitOfWork.Clinics.GetByIdAsync(id);
+            var result = await _unitOfWork.WorkingHours.GetByIdAsync(id);
 
             if (result is null)
             {
                 return NotFound($"No record found with this id {id}");
             }
 
-            var resultDto = result.Adapt<ClinicDto>();
+            var resultDto = result.Adapt<WorkingHoursDto>();
 
             return Ok(resultDto);
         }
 
-        // Add Clinics
+        // Add working hours
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
 
-        public async Task<IActionResult> AddClinicsAsync(Clinic clinic)
+        public async Task<IActionResult> AddWorkingHours(WorkingHours workingHours)
         {
-            var result = await _unitOfWork.Clinics.AddAsync(clinic);
+            var result = await _unitOfWork.WorkingHours.AddAsync(workingHours);
 
-            var resultsDto = result.Adapt<ClinicDto>();
+            var resultDto = result.Adapt<WorkingHoursDto>();
 
             _unitOfWork.Complete();
 
-            return Ok(resultsDto);
+            return Ok(resultDto);
         }
 
-        // update clinic by id
+        // update working hours
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id:int}")]
 
-        public async Task<IActionResult> UpdateClinicAsync(int id, ClinicDto clinicDto)
+        public async Task<IActionResult> UpdateHoursASync(int id, WorkingHoursDto workingHoursDto)
         {
-            var entity = await _unitOfWork.Clinics.GetByIdAsync(id);
+            var entity = await _unitOfWork.WorkingHours.GetByIdAsync(id);
 
-            if (!ModelState.IsValid || clinicDto is null)
+            if (!ModelState.IsValid || workingHoursDto is null)
             {
                 return BadRequest("Something went wrong");
             }
             if (entity is null)
             {
                 return NotFound($"No record with this id: {id}");
+
             }
-            clinicDto.Adapt(entity);
+            workingHoursDto.Adapt(entity);
             _unitOfWork.Complete();
             return Ok(entity);
         }
@@ -91,11 +93,11 @@ namespace DentalClinic.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPatch("{id:int}")]
 
-        public IActionResult UpdatePartialClinic(int id, JsonPatchDocument<Clinic> clinic)
+        public IActionResult UpdatePartialHours(int id, JsonPatchDocument<WorkingHours> workingHours)
         {
-            var entity = _unitOfWork.Clinics.GetById(id);
+            var entity = _unitOfWork.WorkingHours.GetById(id);
 
-            if (!ModelState.IsValid || clinic is null)
+            if (!ModelState.IsValid || workingHours is null)
             {
                 return BadRequest("Something went wrong");
             }
@@ -104,8 +106,7 @@ namespace DentalClinic.Controllers
             {
                 return NotFound($"No record with this id: {id}");
             }
-
-            clinic.ApplyTo(entity);
+            workingHours.ApplyTo(entity);
 
             _unitOfWork.Complete();
 
@@ -117,20 +118,20 @@ namespace DentalClinic.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id:int}")]
 
-        public IActionResult DeleteClinic(int id)
+        public IActionResult DeleteHours(int id)
         {
-            var entity = _unitOfWork.Clinics.GetById(id);
+            var entity = _unitOfWork.WorkingHours.GetById(id);
 
             if (!ModelState.IsValid)
             {
-                return BadRequest("Somthing went wrong");
+                return BadRequest("Something went wrong");
             }
             if (entity is null)
             {
-                return NotFound($"No record with this id: {id}");
+                return NotFound($"No record found with this id: {id}");
             }
 
-            _unitOfWork.Clinics.Delete(entity);
+            _unitOfWork.WorkingHours.Delete(entity);
 
             _unitOfWork.Complete();
 

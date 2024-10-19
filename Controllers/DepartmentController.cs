@@ -7,73 +7,75 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DentalClinic.Controllers
 {
-    [Route("api/clinics")]
+    [Route("api/departments")]
     [Produces("application/json")]
     [ApiController]
-    public class ClinicController(IUnitOfWork unitOfWork) : ControllerBase
+    public class DepartmentController(IUnitOfWork unitOfWork) : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
 
-        public IActionResult GetAllClinicsAsync()
+        public IActionResult GetAllDepartmentsAsync()
         {
-            var deffredResults = _unitOfWork.Clinics.GetAllDeferred();
+            var defferedResults = _unitOfWork.Departments.GetAllDeferred();
 
-            var results = deffredResults.ToList();
+            var results = defferedResults.ToList();
 
-            var resultsDto = results.Adapt<ClinicDto>();
-            return Ok(resultsDto);
+            var resultDto = results.Adapt<DepartmentDto>();
+
+            return Ok(resultDto);
         }
 
-        // Get Clinics by id
+        // Get Department by id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id:int}")]
 
-        public async Task<IActionResult> GetClinicsByIdAsync(int id)
+        public async Task<IActionResult> GetDepartmentByIdAsync(int id)
         {
-            var result = await _unitOfWork.Clinics.GetByIdAsync(id);
+            var result = await _unitOfWork.Departments.GetByIdAsync(id);
 
             if (result is null)
             {
                 return NotFound($"No record found with this id {id}");
             }
 
-            var resultDto = result.Adapt<ClinicDto>();
+            var resultDto = result.Adapt<DepartmentDto>();
 
             return Ok(resultDto);
         }
 
-        // Add Clinics
+        // Add Department 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
 
-        public async Task<IActionResult> AddClinicsAsync(Clinic clinic)
+        public async Task<IActionResult> AddDepartmentAsync(Department department)
         {
-            var result = await _unitOfWork.Clinics.AddAsync(clinic);
+            var result = await _unitOfWork.Departments.AddAsync(department);
 
-            var resultsDto = result.Adapt<ClinicDto>();
+            var resultDto = result.Adapt<DepartmentDto>();
 
             _unitOfWork.Complete();
 
-            return Ok(resultsDto);
+            return Ok(resultDto);
+
         }
 
-        // update clinic by id
+        // update department by id
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id:int}")]
 
-        public async Task<IActionResult> UpdateClinicAsync(int id, ClinicDto clinicDto)
+        public async Task<IActionResult> UpdateDepartmentAsync(int id, DepartmentDto departmentDto)
         {
-            var entity = await _unitOfWork.Clinics.GetByIdAsync(id);
+            var entity = await _unitOfWork.Departments.GetByIdAsync(id);
 
-            if (!ModelState.IsValid || clinicDto is null)
+            if (!ModelState.IsValid || departmentDto is null)
             {
                 return BadRequest("Something went wrong");
             }
@@ -81,9 +83,10 @@ namespace DentalClinic.Controllers
             {
                 return NotFound($"No record with this id: {id}");
             }
-            clinicDto.Adapt(entity);
+            departmentDto.Adapt(entity);
             _unitOfWork.Complete();
             return Ok(entity);
+
         }
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -91,21 +94,20 @@ namespace DentalClinic.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPatch("{id:int}")]
 
-        public IActionResult UpdatePartialClinic(int id, JsonPatchDocument<Clinic> clinic)
+        public IActionResult UpdatePartialClinic(int id, JsonPatchDocument<Department> department)
         {
-            var entity = _unitOfWork.Clinics.GetById(id);
+            var entity = _unitOfWork.Departments.GetById(id);
 
-            if (!ModelState.IsValid || clinic is null)
+            if (!ModelState.IsValid || department is null)
             {
                 return BadRequest("Something went wrong");
             }
-
             if (entity is null)
             {
                 return NotFound($"No record with this id: {id}");
             }
 
-            clinic.ApplyTo(entity);
+            department.ApplyTo(entity);
 
             _unitOfWork.Complete();
 
@@ -117,20 +119,20 @@ namespace DentalClinic.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id:int}")]
 
-        public IActionResult DeleteClinic(int id)
+        public IActionResult DeleteDepartment(int id)
         {
-            var entity = _unitOfWork.Clinics.GetById(id);
+            var entity = _unitOfWork.Departments.GetById(id);
 
             if (!ModelState.IsValid)
             {
-                return BadRequest("Somthing went wrong");
+                return BadRequest("Something went wrong");
             }
+
             if (entity is null)
             {
                 return NotFound($"No record with this id: {id}");
             }
-
-            _unitOfWork.Clinics.Delete(entity);
+            _unitOfWork.Departments.Delete(entity);
 
             _unitOfWork.Complete();
 

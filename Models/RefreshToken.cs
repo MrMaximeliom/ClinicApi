@@ -1,11 +1,11 @@
 ﻿namespace DentalClinic.Models
 {
-    public class RefreshToken(string token, DateTime expiresOn)
+    public class RefreshToken
     {
         public int Id { get; set; }
-        public string Token { get; set; } = token;
+        public string Token { get; set; } 
 
-        public DateTime ExpiresOn { get; set; } = expiresOn;
+        public DateTime ExpiresOn { get; set; } 
 
         public bool IsExpired => DateTime.UtcNow >= ExpiresOn;
 

@@ -11,10 +11,10 @@
         Saturday,
 
     }
-    public class Clinic(string name)
+    public class Clinic
     {
         public int Id { get; set; } 
-        public string Name { get; set; } = name;
+        public string Name { get; set; }
 
         // Relation fields
         public int DepartmentId { get; set; }
